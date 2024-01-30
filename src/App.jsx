@@ -1,7 +1,7 @@
-import cn from "classnames";
 import { useEffect, useState } from "react";
-import caretDown from "../images/icon-down.svg";
-import caretUp from "../images/icon-up.svg";
+import CardOverview from "./components/CardOverview";
+import CardSub from "./components/CardSub";
+import { cardsOverview } from "./js/cardsOverview";
 import { cardsSub } from "./js/cardsSub";
 function App() {
   const [theme, setTheme] = useState(null);
@@ -25,23 +25,25 @@ function App() {
     setTheme(theme === "dark" ? "light" : "dark");
   }
   return (
-    <main className="px-6 py-8 font-inter md:px-16 lg:px-28">
-      <div className="flex flex-col sm:flex-row sm:justify-between">
+    <main className="bgColor relative px-6 pb-12 pt-8 font-inter dark:bg-darkBgColor md:px-16 lg:px-28">
+      <div className="relative z-20 flex flex-col sm:flex-row sm:justify-between">
         <div className="">
-          <h2 className="text-2xl font-bold">Social Media Dashboard</h2>
-          <p className="text-sm font-semibold text-secondaryText">
+          <h2 className="text-2xl font-bold text-darkPrimaryText dark:text-primaryText">
+            Social Media Dashboard
+          </h2>
+          <p className="text-sm font-semibold text-secondaryText dark:text-darkSecondaryText">
             Total Followers: 23,004
           </p>
         </div>
         <hr className="my-6 border border-gray-400 sm:hidden" />
         {/* toggle bar */}
         <div className="flex items-center justify-between gap-5 sm:flex-row">
-          <h3 className="text-sm font-semibold text-secondaryText">
+          <h3 className="text-sm font-semibold text-secondaryText dark:text-darkSecondaryText">
             Dark Mode
           </h3>
           <label
             htmlFor="toggle"
-            className="relative inline-block rounded-full bg-gray-400 px-8 py-4"
+            className="relative inline-block rounded-full bg-[#aeb3cb] px-8 py-4 dark:bg-gradient-to-r dark:from-[#378fe6] dark:to-[#3eda82]"
           >
             <input
               type="checkbox"
@@ -49,63 +51,30 @@ function App() {
               name="toggle"
               onClick={themeHandler}
             />
-            <span className="absolute right-[7px] top-[4px] inline-block h-6 w-6 rounded-full bg-white transition duration-300 peer-checked:right-8"></span>
+            <span className="absolute right-8 top-[4px] inline-block h-6 w-6 rounded-full bg-white transition duration-300 peer-checked:right-[7px] dark:bg-black"></span>
           </label>
         </div>
       </div>
-      {/* cards */}
-      <div className=" mt-10 flex flex-col gap-5 sm:flex-row sm:flex-wrap sm:justify-center lg:flex-nowrap xl:justify-between">
-        {cardsSub.map((card, index) => {
-          return (
-            <div
-              className={cn(
-                "rounded-md bg-cardBg py-7 text-center font-bold sm:w-full sm:max-w-[16rem]  sm:px-8",
-                {
-                  "border-t-4 border-facebook": card.app == "facebook",
-                  "border-t-4 border-twitter": card.app == "twitter",
-                  "border-t-4 border-youtube": card.app == "youtube",
-                  "border-t-4 border-[#fdc468]": card.app == "instagram",
-                },
-              )}
-              key={index}
-            >
-              <div className="flex items-center justify-center gap-4">
-                <img
-                  src={card.icon}
-                  alt="icon"
-                  className="bg-cover bg-center"
-                />
-                <h3 className="text-sm text-secondaryText">{card.account}</h3>
-              </div>
-              <h2 className="mt-6 text-6xl">{card.follower}</h2>
-              <p className="pb-6 pt-2 text-sm font-light uppercase tracking-[0.3em] text-secondaryText">
-                {card.description}
-              </p>
-              <div
-                className={cn("flex items-center justify-center gap-2", {
-                  "text-brightRed": !card.valueUp,
-                  "text-limeGreen": card.valueUp,
-                })}
-              >
-                {card.valueUp ? (
-                  <img
-                    src={caretUp}
-                    alt="icon"
-                    className="w-4 bg-cover bg-center"
-                  />
-                ) : (
-                  <img
-                    src={caretDown}
-                    alt="icon"
-                    className="w-4 bg-cover bg-center"
-                  />
-                )}
-                <p className="text-sm">{card.view}</p>
-              </div>
-            </div>
-          );
+      {/* cards Sub */}
+      <section className=" relative z-20 mt-10 grid grid-cols-1 grid-rows-1 gap-5 sm:grid-cols-2 sm:grid-rows-2 sm:justify-items-center lg:grid-cols-3 lg:grid-rows-2 xl:grid-cols-4 xl:grid-rows-1">
+        {cardsSub.map((card) => {
+          return <CardSub key={card.app} card={card} />;
         })}
-      </div>
+      </section>
+      {/* cards Overview */}
+      <section className="relative z-20 mt-12">
+        <h3 className="text-2xl font-semibold text-secondaryText dark:text-primaryText">
+          Overview - Today
+        </h3>
+        <div className="mt-7 grid grid-cols-1 grid-rows-1 justify-center gap-5 sm:grid-cols-3 sm:grid-rows-3 lg:grid-cols-4 lg:grid-rows-2">
+          {cardsOverview.map((card, index) => {
+            return <CardOverview card={card} key={index} />;
+          })}
+        </div>
+      </section>
+
+      {/* background pattern */}
+      <div className="bg-patternColorBg absolute left-0 top-0 h-[10%] w-full dark:bg-darkPatternColorBg sm:h-[20%] lg:h-[30%]"></div>
     </main>
   );
 }

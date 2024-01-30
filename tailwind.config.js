@@ -15,7 +15,7 @@ export default {
         brightRed: "hsl(356, 69%, 56%)",
         bgColor: "hsl(0, 0%, 100%)",
         darkBgColor: "hsl(230, 17%, 14%)",
-        PatternColorBg: "hsl(225, 100%, 98%)",
+        patternColorBg: "hsl(225, 100%, 98%)",
         darkPatternColorBg: "hsl(232, 19%, 15%)",
         cardBg: "hsl(227, 47%, 96%)",
         darkCardBg: "hsl(228, 28%, 20%)",
